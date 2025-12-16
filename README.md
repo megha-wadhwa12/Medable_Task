@@ -1,20 +1,27 @@
-# 🔐 Assessment 1: User Management API
+# 🔐 User Management API
 
-Welcome to the User Management API assessment! This project contains a Node.js API with intentional bugs and missing features that you need to fix and implement.
+A secure User Management API built with Node.js and Express as part of a backend assessment.  
+The project fixes multiple security bugs, implements missing features, and includes hidden puzzle challenges.
 
-## 🎯 Objective
+---
 
-Your goal is to:
-1. **Fix all bugs** in the existing code
-2. **Implement missing features** 
-3. **Solve the puzzles** hidden throughout the application
-4. **Improve security** and best practices
+## 🚀 Tech Stack
 
-## 🚀 Getting Started
+- Node.js
+- Express.js
+- JWT Authentication
+- bcrypt
+- express-rate-limit
+- In-memory data store (for assessment scope)
+
+---
+
+## ⚙️ Setup & Run
 
 ### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn
+
+- Node.js v18+
+- npm
 - Netlify CLI (for local development)
 
 ### Installation
@@ -26,12 +33,26 @@ npm run dev
 
 The API will be available at `http://localhost:8888`
 
+### 🔐 Authentication Flow
+
+- User registers → account created (inactive)
+
+- User activates account using activation token
+
+- User logs in → receives JWT token
+
+- JWT token required for all protected routes
+
+- Role-based access enforced via middleware
+
 ## 📚 API Documentation
 
 ### Authentication Endpoints
 
 #### POST /api/auth/login
-Login with email and password
+
+Login with email and password and receive JWT token
+
 ```json
 {
   "email": "admin@test.com",
@@ -39,8 +60,10 @@ Login with email and password
 }
 ```
 
-#### POST /api/auth/register  
+#### POST /api/auth/register
+
 Register a new user
+
 ```json
 {
   "email": "newuser@test.com",
@@ -49,131 +72,161 @@ Register a new user
 }
 ```
 
-### User Management Endpoints
+#### GET /api/auth/profile
 
-#### GET /api/users
-Get all users (requires authentication)
+Get logged-in user profile
+🔒 Requires JWT
 
-#### GET /api/users/:id
-Get user by ID (requires authentication)
+#### POST /api/auth/change-password
 
-#### PUT /api/users/:id
-Update user information (requires authentication)
+Change password for logged-in user
+🔒 Requires JWT
 
-#### DELETE /api/users/:id
-Delete user (requires admin role)
+```
+{
+  "oldPassword": "OldPass123",
+  "newPassword": "NewPass123"
+}
 
-## 🐛 Bugs to Fix
-
-### Critical Security Issues
-1. **Hardcoded JWT Secret** - The JWT secret is hardcoded in multiple files
-2. **Password Exposure** - User passwords are being returned in API responses
-3. **Missing Authentication** - Many endpoints lack proper authentication
-4. **No Input Validation** - Missing validation for email format, password strength
-5. **Async/Await Bug** - bcrypt.compare is not being awaited properly
-6. **No Rate Limiting** - API endpoints are vulnerable to brute force attacks
-
-### Functionality Bugs
-7. **Duplicate User Data** - User array is duplicated across files instead of being centralized
-8. **Missing Error Handling** - Inadequate error handling for JSON parsing and other operations
-9. **No Role-Based Access** - Admin-only operations aren't properly protected
-10. **Self-Deletion Prevention** - Users can delete their own accounts without restrictions
-
-## ⚡ Features to Implement
-
-### Must-Have Features
-1. **JWT Authentication Middleware** - Create proper auth middleware for protected routes
-2. **Input Validation** - Implement comprehensive validation for all inputs
-3. **Password Hashing for Updates** - Ensure password updates are properly hashed
-4. **User Profile Endpoint** - Add GET /api/auth/profile to get current user info
-5. **Password Change Endpoint** - Add POST /api/auth/change-password
-6. **Admin User Statistics** - Add GET /api/admin/stats (admin only)
-
-### Nice-to-Have Features  
-7. **Pagination** - Add pagination to GET /api/users
-8. **User Search** - Add search functionality to find users
-9. **Account Activation** - Email-based account activation flow
-10. **Password Reset** - Password reset functionality with secure tokens
-
-## 🧩 Puzzles & Hidden Challenges
-
-### Puzzle 1: Secret Headers
-Find the secret header set in the network configuration. What value is it set to?
-
-### Puzzle 2: Hidden Endpoint
-There's a secret endpoint mentioned in the API responses. Can you find and access it?
-
-### Puzzle 3: Encoded Message
-Once you find the secret endpoint, decode the hidden message. What does it say?
-
-### Puzzle 4: Access Methods
-The secret endpoint has multiple ways to access it. Can you find both methods?
-
-## 🔧 Testing Your Solutions
-
-### Manual Testing Commands
-
-```bash
-# Test login
-curl -X POST http://localhost:8888/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@test.com","password":"admin123"}'
-
-# Test user creation
-curl -X POST http://localhost:8888/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"testpass123","name":"Test User"}'
-
-# Test getting users (should require auth)
-curl http://localhost:8888/api/users
-
-# Test the secret endpoint (find the right way to access it!)
-curl http://localhost:8888/api/users/secret-stats
 ```
 
-### Expected Behavior After Fixes
+#### POST /api/auth/forgot-password
 
-1. **Secure Authentication** - JWT tokens should be properly validated
-2. **No Sensitive Data Leaks** - Passwords should never be returned
-3. **Proper Validation** - Invalid emails/weak passwords should be rejected
-4. **Role-Based Security** - Only admins can access admin endpoints
-5. **Centralized Data** - Single source of truth for user data
+Request password reset link  
+Always returns success message for security
 
-## 📝 Submission Guidelines
+#### POST /api/auth/reset-password
 
-### What to Submit
+Reset password using reset token
 
-1. **Fixed Code** - All bugs resolved and features implemented
-2. **Documentation** - Update this README with any new endpoints or changes
-3. **Test Report** - Document how you tested your solutions
-4. **Puzzle Solutions** - List all the puzzles you solved and their answers
+### 👥 User Management Routes
 
-### Code Quality Requirements
+#### 🔒 All routes require JWT authentication
 
-- **ES6+ Features** - Use modern JavaScript features
-- **Error Handling** - Comprehensive error handling throughout
-- **Security Best Practices** - Implement proper security measures
-- **Clean Code** - Well-commented, readable code
-- **No Console Logs** - Remove all debug console.log statements
+#### GET /api/users
 
-## 🎉 Bonus Points
+- Supports pagination & search
 
-- **Input Sanitization** - Prevent XSS and injection attacks
-- **API Documentation** - Generate Swagger/OpenAPI documentation  
-- **Unit Tests** - Write tests for your functions
-- **Environment Variables** - Use proper environment configuration
-- **Logging System** - Implement proper application logging
+- Query params:
 
-## 🚨 Common Pitfalls
+- page
 
-1. Don't just comment out bugs - fix them properly
-2. Ensure your authentication middleware works with all protected routes
-3. Remember to hash passwords when updating user profiles
-4. Test edge cases (empty inputs, invalid tokens, etc.)
-5. Make sure the secret endpoint puzzles still work after your fixes
+- limit
 
-## 📞 Support
+- search
 
-If you get stuck on any puzzle or need clarification on requirements, document your questions and the approaches you tried. This shows your problem-solving process.
+`/api/users?page=1&limit=10&search=test`
 
-Good luck! 🍀
+#### Get user by ID
+
+`GET /api/users/:id`
+
+#### PUT /api/users/:id
+
+Update user (admin or self only)
+
+#### DELETE /api/users/:id
+
+Delete user  
+🔐 Admin only  
+❌ Self-deletion blocked
+
+### Admin Routes
+
+#### GET /api/admin/stats
+
+Admin-only statistics endpoint
+
+Returns:
+
+- Total users
+- Admin users
+- Regular users
+- System info
+
+### 🛡️ Security Features Implemented
+
+- JWT-based authentication
+
+- Role-based access control
+
+- Password hashing (bcrypt)
+
+- Rate limiting on auth endpoints
+
+- Input validation (email, password strength)
+
+- Centralized user data
+
+- No password exposure in responses
+
+- Secure password reset & activation tokens
+
+- Rate limiting applied on authentication endpoints to prevent brute-force attacks
+
+
+### 🧩 Puzzle Solutions
+
+#### Puzzle 1: Secret Header
+
+##### Header:
+
+- X-Secret-Challenge: find_me_if_you_can_2024
+
+#### Puzzle 2: Hidden Endpoint
+
+`/api/users/secret-stats`
+
+#### Puzzle 3: Decoded Message
+
+`Congratulations! You found the secret endpoint.The final clue is: SHC_Header_Puzzle_2024`
+
+#### Puzzle 4: Access Methods
+
+- The secret endpoint can be accessed via:
+
+- Custom request header
+
+- Query parameter override
+
+#### 🧪 Testing
+
+All endpoints were tested manually using:
+
+- Postman
+
+- curl
+
+##### Edge cases tested:
+
+- Invalid tokens
+
+- Expired tokens
+
+- Weak passwords
+
+- Unauthorized access
+
+- Admin-only access violations
+
+Detailed testing steps are documented in TESTING.md.
+
+#### 📌 Notes
+
+- In-memory data store used intentionally (assessment scope)
+
+- Swagger & unit tests were scoped out due to time constraints
+
+- Code follows security best practices and clean architecture
+
+#### ✅ Status
+
+- ✔ All bugs fixed
+- ✔ All required features implemented
+- ✔ All puzzles solved
+- ✔ All nice-to-have features completed
+
+---
+
+#### **Author:** Megha Wadhwa
+**Assessment:** Backend User Management API
