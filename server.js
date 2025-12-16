@@ -1,11 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+
+require("dotenv").config();
 
 // Import routes
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const secretStatsRoutes = require('./routes/secret-stats');
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users");
+const secretStatsRoutes = require("./routes/secret-stats");
+const adminStatRoutes = require("./routes/admin");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,47 +16,45 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Custom headers for puzzle hints
 app.use((req, res, next) => {
   res.set({
-    'X-Secret-Challenge': 'find_me_if_you_can_2024',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+    "X-Secret-Challenge": "find_me_if_you_can_2024",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   });
   next();
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/users/secret-stats', secretStatsRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users/secret-stats", secretStatsRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/admin", adminStatRoutes);
 
 // Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+app.get("/health", (req, res) => {
+  res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
 // Serve static files
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+app.use("*", (req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
 });
 
 // Error handler
 app.use((error, req, res, next) => {
-  console.error('Error:', error);
-  res.status(500).json({ error: 'Internal server error' });
+  res.status(500).json({ error: "Internal server error" });
 });
 
 app.listen(PORT, () => {
-  console.log(`🔐 Assessment 1: User Management API running on http://localhost:${PORT}`);
-  console.log(`📋 View instructions: http://localhost:${PORT}`);
-  console.log(`🧩 Ready for puzzle solving!`);
+  console.log(`Server running on port ${PORT}`);
 });
