@@ -1,0 +1,747 @@
+{
+	"info": {
+		"_postman_id": "6bf7f478-dd68-400e-b626-4d2050c64001",
+		"name": "UserManagementAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33630628"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"new@gmail.com\",\r\n  \"password\": \"Password123\",\r\n  \"name\": \"New User\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "User created successfully",
+							"user": {
+								"id": "8886ed5a-3606-4e18-8814-4c2e3ecc0621",
+								"email": "new@gmail.com",
+								"name": "New User",
+								"role": "user"
+							},
+							"activationToken": "73817ca92b71b3f438d9ad81af74617c6214bd8b8dc9d222ca33584666f6ade1"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "73817ca92b71b3f438d9ad81af74617c6214bd8b8dc9d222ca33584666f6ade1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"new@gmail.com\",\r\n  \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "Login successful",
+							"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+							"user": {
+								"id": "8886ed5a-3606-4e18-8814-4c2e3ecc0621",
+								"email": "new@gmail.com",
+								"name": "New User",
+								"role": "user"
+							}
+						}
+					]
+				},
+				{
+					"name": "Account Activation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"meghawadhwa20@gmail.com\",\r\n    \"password\": \"MeghaWadhwa123\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/auth/activate?token=73817ca92b71b3f438d9ad81af74617c6214bd8b8dc9d222ca33584666f6ade1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "73817ca92b71b3f438d9ad81af74617c6214bd8b8dc9d222ca33584666f6ade1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "Account activated successfully"
+						}
+					]
+				},
+				{
+					"name": "ChangePassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"oldPassword\": \"Password123\",\r\n  \"newPassword\": \"Password1234\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/auth/change-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "Password updated successfully"
+						}
+					]
+				},
+				{
+					"name": "ForgotPassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"new@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/auth/forgot-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "Password reset token generated",
+							"resetToken": "4859c6922fde3c11c247a2796302f06d2577c3146e2aed7b575bf6bcd6b65407"
+						}
+					]
+				},
+				{
+					"name": "ResetPassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4NGU1ODkyNi1hNjMyLTRhNDYtODdmYy04YWJlMjcxMDg2OTMiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk2NzUxMSwiZXhwIjoxNzY2MDUzOTExfQ.bp_6p-OeFSzF6Q6dVWRkLQsf-ww0JahFCP9DnZ28o7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"newPassword\": \"NewPass123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/auth/reset-password?token=4859c6922fde3c11c247a2796302f06d2577c3146e2aed7b575bf6bcd6b65407",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"reset-password"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "4859c6922fde3c11c247a2796302f06d2577c3146e2aed7b575bf6bcd6b65407"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "Password reset successful"
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/api/auth/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "8886ed5a-3606-4e18-8814-4c2e3ecc0621",
+							"email": "new@gmail.com",
+							"name": "New User",
+							"role": "user",
+							"createdAt": "2025-12-17T11:39:42.703Z"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "AllUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"page": 1,
+							"limit": 10,
+							"totalUsers": 3,
+							"totalPages": 1,
+							"users": [
+								{
+									"id": "1",
+									"email": "admin@test.com",
+									"name": "Admin User",
+									"role": "admin",
+									"createdAt": "2024-01-01T00:00:00.000Z"
+								},
+								{
+									"id": "2",
+									"email": "user@test.com",
+									"name": "Regular User",
+									"role": "user",
+									"createdAt": "2024-01-02T00:00:00.000Z"
+								},
+								{
+									"id": "8886ed5a-3606-4e18-8814-4c2e3ecc0621",
+									"email": "new@gmail.com",
+									"name": "New User",
+									"role": "user",
+									"createdAt": "2025-12-17T11:39:42.703Z"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "UserById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0YjRmN2QwMi0wYWZiLTQ3MDItYjVjNi1kMjIzYzZiZjA5YzQiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MDgzMiwiZXhwIjoxNzY2MDU3MjMyfQ.BZo0oDXOsm32oyBBETIrht-2Zwv_uRR6HEpcChzsZ04",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8886ed5a-3606-4e18-8814-4c2e3ecc0621"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "8886ed5a-3606-4e18-8814-4c2e3ecc0621",
+							"email": "new@gmail.com",
+							"name": "New User",
+							"role": "user",
+							"createdAt": "2025-12-17T11:39:42.703Z"
+						}
+					]
+				},
+				{
+					"name": "UpdateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"newuser@gmail.com\",\r\n    \"name\": \"Megha Wadhwa\",\r\n    \"role\": \"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8886ed5a-3606-4e18-8814-4c2e3ecc0621"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "User updated successfully",
+							"user": {
+								"id": "8886ed5a-3606-4e18-8814-4c2e3ecc0621",
+								"email": "newuser@gmail.com",
+								"name": "Megha Wadhwa",
+								"role": "user",
+								"createdAt": "2025-12-17T11:39:42.703Z"
+							}
+						}
+					]
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiZW1haWwiOiJhZG1pbkB0ZXN0LmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NTk2NTEwNSwiZXhwIjoxNzY2MDUxNTA1fQ.-H_efTb1b8yyGg8O6FFIb_LnKeCDtFrWmo0plLez1DE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8886ed5a-3606-4e18-8814-4c2e3ecc0621"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"message": "User deleted successfully"
+						}
+					]
+				},
+				{
+					"name": "Pagination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODg2ZWQ1YS0zNjA2LTRlMTgtODgxNC00YzJlM2VjYzA2MjEiLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2NTk3MTYxOCwiZXhwIjoxNzY2MDU4MDE4fQ.3wCvJAqd_rafXYSx2PXovibzoyrn11mtQstoGvcBFY0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/api/users?page=1&limit=2&search=admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "search",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"page": 1,
+							"limit": 2,
+							"totalUsers": 1,
+							"totalPages": 1,
+							"users": [
+								{
+									"id": "1",
+									"email": "admin@test.com",
+									"name": "Admin User",
+									"role": "admin",
+									"createdAt": "2024-01-01T00:00:00.000Z"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "AdminStats",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiZW1haWwiOiJhZG1pbkB0ZXN0LmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NTk3MTI3OSwiZXhwIjoxNzY2MDU3Njc5fQ.rzLo4l2U5fqVPdiLii_efWLK-RRr1vV2OO5jrT2QFVY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@test.com\",\r\n  \"password\": \"admin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/admin/stats",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"admin",
+								"stats"
+							]
+						}
+					},
+					"response": [
+						{
+							"totalUsers": 2,
+							"adminUsers": 1,
+							"regularUsers": 1,
+							"systemInfo": {
+								"nodeVersion": "v20.19.5",
+								"platform": "win32",
+								"uptime": 393.6573961
+							},
+							"timestamp": "2025-12-17T11:46:13.662Z"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Puzzles",
+			"item": [
+				{
+					"name": "SecretStats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiZW1haWwiOiJhZG1pbkB0ZXN0LmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NTk3MTI3OSwiZXhwIjoxNzY2MDU3Njc5fQ.rzLo4l2U5fqVPdiLii_efWLK-RRr1vV2OO5jrT2QFVY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/api/users/secret-stats?secret=admin_override",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"secret-stats"
+							],
+							"query": [
+								{
+									"key": "secret",
+									"value": "admin_override"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"totalUsers": 2,
+							"adminUsers": 1,
+							"regularUsers": 1,
+							"systemInfo": {
+								"nodeVersion": "v20.19.5",
+								"platform": "win32",
+								"uptime": 428.0612859
+							},
+							"secretMessage": "Congratulations! You found the secret endpoint. The final clue is: SHC_Header_Puzzle_2024",
+							"timestamp": "2025-12-17T11:46:48.066Z"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": [
+						{
+							"status": "OK",
+							"timestamp": "2025-12-17T11:46:55.839Z"
+						}
+					]
+				}
+			]
+		}
+	]
+}

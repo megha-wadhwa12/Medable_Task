@@ -199,7 +199,7 @@ router.post(
   }
 );
 
-router.post("/forgot-password", authMiddleware, async (req, res) => {
+router.post("/forgot-password", authLimiter, async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -208,7 +208,7 @@ router.post("/forgot-password", authMiddleware, async (req, res) => {
         message: "If the email exists, a reset link will be sent",
       });
     }
-
+    
     const user = users.find((u) => u.email === email);
 
     if (!user) {
@@ -237,7 +237,8 @@ router.post("/forgot-password", authMiddleware, async (req, res) => {
 
 router.post("/reset-password", async (req, res) => {
   try {
-    const { token, newPassword } = req.body;
+    const { token } = req.query;
+    const { newPassword } = req.body;
 
     if (!token || !newPassword) {
       return res.status(400).json({ error: "Invalid input" });
@@ -246,9 +247,12 @@ router.post("/reset-password", async (req, res) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordRegex.test(newPassword)) {
       return res.status(400).json({ error: "Invalid input" });
-    }
+    } 
 
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
 
     const user = users.find(
       (u) =>
@@ -266,11 +270,12 @@ router.post("/reset-password", async (req, res) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
 
-    return res.json({ message: "Password reset successful" });
+    res.json({ message: "Password reset successful" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 router.get("/activate", async (req, res) => {
   try {
